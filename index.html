@@ -26,7 +26,17 @@
 
     <div class="container">
       <section id="main_content">
-        <p>Eventually we got the Eye-Fi uploading to our web servers via FTP via the Eye-Fi cloud platform. No Doubt the Eye-Fi cloud platform made the process more efficient using some compression and their own protocols for talking with the card, once it was working. However, still, the card took 10-30 seconds to start connecting to Wifi and their it would upload at an unknown rate for unknown time. Periodically the camera would turn the SD card off and nothing would happen at all. Other times pictures would flow in and we didn't know they were.  Writes also seemed slow. The card would cause the camera to take extra time to write the file to disk, causing the image to be lost before the camera would turn off.</p>
+        <h2>Hacking the Flucard Part 1:</h2>
+
+<p><strong>OR Just Jump to the code... <a href="https://github.com/Augmentous/flucard">https://github.com/Augmentous/flucard</a></strong></p>
+
+<h3>Interest and current State of the Art...</h3>
+
+<p>While working on the <strong>Augmentous</strong> project with a few friends <strong>[1]</strong>, we came across the idea and thought that it would be great to upload images in semi-real time to the net. It would be sort-of like a live cam, but easier to deal with the data, less fast head movements, etc. This lead down the path of the, now commonplace, Eye-Fi. </p>
+
+<p>We have had one for some time at HeatSync Labs, successfully uploading images to our Flickr feed from the Lab Camera where people shoot images of their projects for blogging etc. It has worked pretty well for the last few years. Their cloud platform puts the images up to Flickr through some of their servers and an unknown magical service. The card may or may not upload the images before the the camera powers down the SD card. It's all very non determinant of what will happen and when and how. It works though.</p>
+
+<p>Eventually we got the Eye-Fi uploading to our web servers via FTP via the Eye-Fi cloud platform. No Doubt the Eye-Fi cloud platform made the process more efficient using some compression and their own protocols for talking with the card, once it was working. However, still, the card took 10-30 seconds to start connecting to Wifi and their it would upload at an unknown rate for unknown time. Periodically the camera would turn the SD card off and nothing would happen at all. Other times pictures would flow in and we didn't know they were.  Writes also seemed slow. The card would cause the camera to take extra time to write the file to disk, causing the image to be lost before the camera would turn off.</p>
 
 <h4>The questions / goals are:</h4>
 
@@ -80,6 +90,10 @@ Initial firmware with the card:</p>
 There are many other sites. See below [2].</p>
 
 <p>With this package and combinations from other sites, I thought we could make some progress in creating an upload script that uploaded the right files, thumbnails, etc, in the right order at the right time.</p>
+
+<p>End Part 1 .. for now.. to be continued..</p>
+
+<p><strong>OR Just Jump to the code... <a href="https://github.com/Augmentous/flucard">https://github.com/Augmentous/flucard</a></strong></p>
       </section>
     </div>
 
