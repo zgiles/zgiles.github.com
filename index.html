@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Zach's Blog : " />
 
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Zach's Blog by zgiles</title>
+    <title>Zach's Blog</title>
   </head>
 
   <body>
 
-    <header>
-      <div class="container">
-        <h1>Zach's Blog</h1>
-        <h2></h2>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/zgiles">View on GitHub</a>
 
-        <section id="downloads">
-          <a href="https://github.com/zgiles" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+          <h1 id="project_title">Zach's Blog</h1>
+          <h2 id="project_tagline"></h2>
 
-    <div class="container">
-      <section id="main_content">
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h2>Hacking the Flucard Part 1:</h2>
 
 <h3>Interest and current State of the Art...</h3>
@@ -77,15 +78,23 @@ His blog shows that over time he was able to use the code sourcery arm compile t
 <p>It should be noted, we also worked on a few different firmware levels to test the functionality of each. 
 Initial firmware with the card:</p>
 
-<blockquote>
-<p>3.52: Functional but not very featured. No FTP Server, Telnet is on, Less symlinks to busybox. Safe.
-3.65: Doesnt seem to do uploads, telnet enabled, no "flucard android app support". Not on the website oddly enough.. even though it's on the card.
-3.68: Seem to comment out telnet in the startup, change a few libraries, and add some sort of "flucard android app" support. Appears to be via FTP and the web interface.
-3.70: </p>
-</blockquote>
+<ul>
+<li>3.52: Functional but not very featured. No FTP Server, Telnet is on, Less symlinks to busybox. Safe.</li>
+<li>3.65: Doesnt seem to do uploads, telnet enabled, no "flucard android app support". Not on the website oddly enough.. even though it's on the card.</li>
+<li>3.68: Seem to comment out telnet in the startup, change a few libraries, and add some sort of "flucard android app" support. Appears to be via FTP and the web interface.</li>
+<li>3.70: </li>
+</ul>
       </section>
     </div>
 
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
     
+
   </body>
 </html>
