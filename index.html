@@ -26,11 +26,7 @@
 
     <div class="container">
       <section id="main_content">
-        <h2>Hacking the Flucard Part 1:</h2>
-
-<h3>Interest and current State of the Art...</h3>
-
-<p>While working on the <strong>Augmentous</strong> project with a few friends <strong>[1]</strong>, we came across the idea and thought that it would be great to upload images in semi-real time to the net. It would be sort-of like a live cam, but easier to deal with the data, less fast head movements, etc. This lead down the path of the, now commonplace, Eye-Fi. </p>
+        <p>While working on the <strong>Augmentous</strong> project with a few friends <strong>[1]</strong>, we came across the idea and thought that it would be great to upload images in semi-real time to the net. It would be sort-of like a live cam, but easier to deal with the data, less fast head movements, etc. This lead down the path of the, now commonplace, Eye-Fi. </p>
 
 <p>We have had one for some time at HeatSync Labs, successfully uploading images to our Flickr feed from the Lab Camera where people shoot images of their projects for blogging etc. It has worked pretty well for the last few years. Their cloud platform puts the images up to Flickr through some of their servers and an unknown magical service. The card may or may not upload the images before the the camera powers down the SD card. It's all very non determinant of what will happen and when and how. It works though.</p>
 
@@ -49,7 +45,7 @@
 
 <p>Two major alternatives exist: The <strong>PQI AirCard</strong> and the <strong>Trek Flucard</strong>. </p>
 
-<p>After some quick Googling, it seemed that the FlurCard at least had a Linux direction of it with possible configuration options, CGI servers, something. </p>
+<p>After some quick Googling, it seemed that the FluCard at least had a Linux direction of it with possible configuration options, CGI servers, something. </p>
 
 <p>I went ahead and purchased one via an Amazon provider. </p>
 
@@ -77,12 +73,19 @@ His blog shows that over time he was able to use the code sourcery arm compile t
 <p>It should be noted, we also worked on a few different firmware levels to test the functionality of each. 
 Initial firmware with the card:</p>
 
-<ul>
-<li>3.52 - Functional but not very featured. No FTP Server, Telnet is on, Less symlinks to busybox. Safe.</li>
-<li>3.65 - Doesnt seem to do uploads, telnet enabled, no "flucard android app support". Not on the website oddly enough.. even though it's on the card.</li>
-<li>3.68 - Seem to comment out telnet in the startup, change a few libraries, and add some sort of "flucard android app" support. Appears to be via FTP and the web interface.</li>
-<li>3.70 - abcd</li>
-</ul>
+<blockquote>
+<p>3.52: Functional but not very featured. No FTP Server, Telnet is on, Less symlinks to busybox. Safe.
+3.65: Doesnt seem to do uploads, telnet enabled, no "flucard android app support". Not on the website oddly enough.. even though it's on the card.
+3.68: Seem to comment out telnet in the startup, change a few libraries, and add some sort of "flucard android app" support. Appears to be via FTP and the web interface.
+3.70: Most functional, except for broken telnet. Included flu_app for supporting Android and iPhone apps. The most commands and libraries</p>
+</blockquote>
+
+<h4>Existing work</h4>
+
+<p>A few people, mostly Japanese, have already worked on the FluCard via the telnet interface. The most progress was made by "Ameblo.jp" website, where the author corsscompiled many binaries including PHP, Ruby, a better Busybox, dropbear SSH server, etc. The site is: <a href="http://ameblo.jp/tonsuke-usagi/entry-11212317428.html">http://ameblo.jp/tonsuke-usagi/entry-11212317428.html</a>
+There are many other sites. See below [2].</p>
+
+<p>With this package and combinations from other sites, I thought we could make some progress in creating an upload script that uploaded the right files, thumbnails, etc, in the right order at the right time.</p>
       </section>
     </div>
 
