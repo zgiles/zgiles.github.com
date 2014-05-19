@@ -1,0 +1,79 @@
+<html>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="skynet.js"></script>
+
+  <script>
+    $( document ).ready(function() {
+      // $('#uuid').append(location.pathname.split("?")[1]);
+      $('#uuid').append("fb6d9131-df01-11e3-847b-4b062af1e053");
+    });
+
+    function beatFunction() {
+	$('#beat').fadeIn(50).css("fill", 'red').fadeOut(50).css("fill", 'white'); 
+	beatTimer = setTimeout( beatFunction, (60/beatLastBPM)*1000 );
+    }
+
+    var beatTimer = null;
+    var beatLastBPM = 1;
+
+    var skynetConfig = {
+      // "uuid": location.pathname.split("/")[2],
+      // "token": location.pathname.split("/")[3]
+        "uuid": "1917e841-afb7-11e3-912d-bd75677ad63b",
+        "token": "xufbkulx6pkqpvidvzmh3qyra6mvx6r"
+        // "host": "localhost",
+        // "port": 3000
+    }
+    skynet(skynetConfig, function (e, socket, device) {
+      console.log(e);
+      if (e) throw e
+      console.log('REGISTERED', device);
+
+      // Send and receive messages
+      // socket.emit('message', {
+      //   "devices": location.pathname.split("/")[2],
+      //   "payload": {
+      //   "skynet":"online"
+      // }}, function(data){
+      //   console.log(data);
+      // });
+
+      // Subscribe to device/node i/o
+      socket.emit('subscribe', {
+        uuid: 'fb6d9131-df01-11e3-847b-4b062af1e053'
+      },
+        function(data){
+          console.log(data);
+        });
+
+      socket.on('message', function(message){
+        // console.log('message received', channel, message);
+        if(typeof message == "string"){
+          message = JSON.parse(message);
+        }
+        if(message && message.payload.bpm !== undefined){
+          $('#device').html(message.payload.bpm);
+	  beatLastBPM = message.payload.bpm;
+	  // $('#beat').fadeIn(50).css("background-color", 'red').fadeOut(50).css("background-color", 'red'); 
+	  if(beatTimer == null) {
+		beatTimer = setTimeout( beatFunction, (60/beatLastBPM)*1000 );
+		console.log("setting timer");
+	  } 
+        }
+      });
+
+
+    });
+
+  </script>
+</head>
+<body>
+  <p>Connecting to SkyNet!</p>
+  <p>Subscribing to UUID: <span id="uuid"></span></p>
+  <p>Listening for sensor data...</p>
+  <div id="device"></div>
+  <img id="beat" src="heart.svg">
+</body>
+</html>
+
