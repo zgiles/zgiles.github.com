@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map-canvas { height: 100% }
+
+   .labels {
+     color: white;
+     background-color: red;
+     font-family: "Lucida Grande", "Arial", sans-serif;
+     font-size: 10px;
+     text-align: center;
+     width: 100px;     
+     white-space: nowrap;
+   }
+    </style>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+  <script src="skynet.js"></script>
+
+  <script>
+    $( document ).ready(function() {
+      // $('#uuid').append(location.pathname.split("?")[1]);
+      $('#uuid').append("77c341d1-df11-11e3-847b-4b062af1e053");
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+    });
+
+   function initialize() {
+        var myLatlng = new google.maps.LatLng(33.35477625022955,-111.7898752727656);
+        var mapOptions = {
+          center: myLatlng,
+          zoom: 12
+        };
+        map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+	var pictureLabel = document.createElement("img");
+	pictureLabel.src = "heart.svg";
+	markers['Liberty'] = new google.maps.Marker({
+              position: myLatlng,
+              map: map,
+              title:"Liberty",
+	      optimized: false,
+	      icon: 'heart.svg#Liberty' 
+    	});
+   }
+
+    function beatFunction(a) {
+	$('#map-canvas img[src*="heart.svg#' + a + '"]').fadeIn(50).css("fill", 'red').fadeOut(50).css("fill", 'white');
+	beatTimer = setTimeout( beatFunction, (60/beats[a])*1000, a );
+    }
+
+    var beatTimer = null;
+    var beatLastBPM = 1;
+    var map;
+    var markers = {};
+    var beats = {};
+
+    var skynetConfig = {
+      // "uuid": location.pathname.split("/")[2],
+      // "token": location.pathname.split("/")[3]
+        "uuid": "1917e841-afb7-11e3-912d-bd75677ad63b",
+        "token": "xufbkulx6pkqpvidvzmh3qyra6mvx6r"
+      //  "uuid": "fb6d9131-df01-11e3-847b-4b062af1e053",
+      //  "token": "7dd62kbi8v45nrk9qrv2g8afz1kk2o6r"
+        // "host": "localhost",
+        // "port": 3000
+    }
+    skynet(skynetConfig, function (e, socket, device) {
+      console.log(e);
+      if (e) throw e
+      console.log('REGISTERED', device);
+
+      // Send and receive messages
+      // socket.emit('message', {
+      //   "devices": location.pathname.split("/")[2],
+      //   "payload": {
+      //   "skynet":"online"
+      // }}, function(data){
+      //   console.log(data);
+      // });
+
+      // Subscribe to device/node i/o
+      socket.emit('subscribe', {
+        uuid: '77c341d1-df11-11e3-847b-4b062af1e053'
+      },
+        function(data){
+          console.log(data);
+        });
+
+      socket.on('message', function(message){
+        // console.log('message received', channel, message);
+        if(typeof message == "string"){
+          message = JSON.parse(message);
+        }
+	if(message && message.payload !== undefined){
+        	$('#device').html(JSON.stringify(message.payload));
+	}
+        if(message && message.payload.heartrate !== undefined){
+	  console.log(message.payload.heartrate);
+	  beats[message.payload.uuid] = message.payload.heartrate
+        }
+	if(message && message.payload.lat !== undefined){
+	  var marklatlong = new google.maps.LatLng(message.payload.lat,message.payload.long); 
+	  console.log(message.payload.lat);
+	  console.log(message.payload.long);
+	  if( beats[message.payload.uuid] == undefined ) { beats[message.payload.uuid] = 50; }
+	  if( markers[message.payload.uuid] == undefined ) { 
+          	markers[message.payload.uuid] = new google.maps.Marker({
+              		position: marklatlong,
+             		map: map,
+              		title: "AGENT",
+	      		optimized: false,
+	      		icon: "heart.svg#" + message.payload.uuid
+    	  	});
+	  	beatTimer = setTimeout( beatFunction, (60/beats[message.payload.uuid])*1000, message.payload.uuid );
+	  } else { 
+	   	markers[message.payload.uuid].setPosition(marklatlong);
+	  }
+	}
+	  
+      });
+
+
+    });
+
+  </script>
+</head>
+<body>
+  <p>Connecting to SkyNet!</p>
+  <p>Subscribing to UUID: <span id="uuid"></span></p>
+  <p>Listening for sensor data...</p>
+  <div id="device"></div>
+  <center>
+  <div id="map-canvas" style="width:800px; height:600px"></div>
+  </center>
+</body>
+</html>
+
