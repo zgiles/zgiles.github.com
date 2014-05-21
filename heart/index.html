@@ -107,10 +107,10 @@
 	  console.log(message.payload.heartrate);
 	  beats[message.payload.uuid] = message.payload.heartrate
         }
-	if(message && message.payload.lat !== undefined){
-	  var marklatlong = new google.maps.LatLng(message.payload.lat,message.payload.long); 
-	  console.log(message.payload.lat);
-	  console.log(message.payload.long);
+	if(message && message.payload.location !== undefined){
+	  var marklatlong = new google.maps.LatLng(message.payload.location.latitude,message.payload.location.longitude); 
+	  console.log(message.payload.location.latitude);
+	  console.log(message.payload.location.longitude);
 	  if( beats[message.payload.uuid] == undefined ) { beats[message.payload.uuid] = 50; }
 	  if( markers[message.payload.uuid] == undefined ) { 
           	markers[message.payload.uuid] = new google.maps.Marker({
