@@ -46,8 +46,10 @@
     }
 
     function beatFunction(a) {
-	$('#map-canvas img[src*="heart.svg#' + a + '"]').fadeIn(50).css("fill", 'red').fadeOut(50).css("fill", 'white');
-	beatTimer = setTimeout( beatFunction, (60/beats[a])*1000, a );
+	$('#map-canvas img[src*="heart.svg#' + a + '"]').fadeOut(50).fadeIn(50);
+	requestAnimationFrame(function() {
+		beatTimer = setTimeout( beatFunction, (60/beats[a])*1000, a );
+	});
     }
 
     var beatTimer = null;
@@ -56,28 +58,13 @@
     var beats = {};
 
     var skynetConfig = {
-      // "uuid": location.pathname.split("/")[2],
-      // "token": location.pathname.split("/")[3]
         "uuid": "1917e841-afb7-11e3-912d-bd75677ad63b",
         "token": "xufbkulx6pkqpvidvzmh3qyra6mvx6r"
-      //  "uuid": "fb6d9131-df01-11e3-847b-4b062af1e053",
-      //  "token": "7dd62kbi8v45nrk9qrv2g8afz1kk2o6r"
-        // "host": "localhost",
-        // "port": 3000
     }
     skynet(skynetConfig, function (e, socket, device) {
       console.log(e);
       if (e) throw e
       console.log('REGISTERED', device);
-
-      // Send and receive messages
-      // socket.emit('message', {
-      //   "devices": location.pathname.split("/")[2],
-      //   "payload": {
-      //   "skynet":"online"
-      // }}, function(data){
-      //   console.log(data);
-      // });
 
       // Subscribe to device/node i/o
       socket.emit('subscribe', {
@@ -105,9 +92,9 @@
         if(message && message.payload.heartrate !== undefined){
 	  console.log(message.payload.heartrate);
 	  // throw out bad heart rates
-	  if(message.payload.heartrate < 50 || message.payload.heartrate > 180 ) {
+	  if(parseInt(message.payload.heartrate) > 50 && parseInt(message.payload.heartrate) < 180 ) {
 		beats[message.payload.uuid] = message.payload.heartrate;
-	  }
+	  } else { console.log("out of range"); }
         }
 	if(message && message.payload.location !== undefined){
 	  var marklatlong = new google.maps.LatLng(message.payload.location.latitude,message.payload.location.longitude); 
@@ -122,6 +109,7 @@
 	      		optimized: false,
 	      		icon: "heart.svg#" + message.payload.uuid
     	  	});
+		$('#map-canvas img[src*="heart.svg#' + message.payload.uuid + '"]').hover( function() { console.log('hovered'); } );
 	  	beatTimer = setTimeout( beatFunction, (60/beats[message.payload.uuid])*1000, message.payload.uuid );
 	  } else { 
 	   	markers[message.payload.uuid].setPosition(marklatlong);
